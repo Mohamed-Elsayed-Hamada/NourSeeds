@@ -751,7 +751,7 @@
             <div class="header-content">
                 <div class="logo">
                 <img src="logo.png" alt="NOUR SEEDs Logo">
-                <h1>NOUR SEEDs</h1>
+                <h1>ALNOUR SEEDs</h1>
             </div>
                 <nav class="nav" id="nav">
                     <a href="#" class="nav-link active" data-page="home">الرئيسية</a>
@@ -1539,9 +1539,22 @@ function renderFeaturedProducts() {
         // renderFeaturedProducts(); // Call this directly for the home page
         document.addEventListener('DOMContentLoaded', function() {
             renderFeaturedProducts(); // Render featured products on home page load
-            // Ensure the correct page is shown on initial load (e.g., if page is reloaded)
-            const initialPage = window.location.hash.substring(1) || 'home';
-            showPage(initialPage);
+
+            // Handle initial page load and hash changes
+            function handleHashChange() {
+                const hash = window.location.hash.substring(1);
+                if (hash.startsWith('product-detail-')) {
+                    const productName = decodeURIComponent(hash.substring('product-detail-'.length));
+                    showProductDetail(productName);
+                } else if (hash) {
+                    showPage(hash);
+                } else {
+                    showPage('home');
+                }
+            }
+
+            window.addEventListener('hashchange', handleHashChange);
+            handleHashChange(); // Call on initial load
         });
     </script>
 </body>
